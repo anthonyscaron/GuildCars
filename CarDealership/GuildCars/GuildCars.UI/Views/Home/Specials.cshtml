@@ -1,0 +1,32 @@
+﻿@model GuildCars.UI.Models.HomeSpecialsViewModel
+@{
+    ViewBag.Title = "Home - Specials";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Specials</h1>
+        </div>
+    </div>
+    @foreach (var special in Model.Specials)
+    {
+        <div class="row" id="specialSection" style="background-image: url('@Url.Content("~/ImagesSupport/" + Model.FileNameForPicture)');">
+            <div class="col-xs-12 col-sm-2 col-md-2">
+                <img src="@Url.Content("~/ImagesSupport/" + Model.FileNameForIcon)" style="width:100px; height:100px" />
+            </div>
+            <div class="col-xs-12 col-sm-10 col-md-10">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4>@special.SpecialTitle</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>@special.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

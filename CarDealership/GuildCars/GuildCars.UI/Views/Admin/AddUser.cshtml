@@ -1,0 +1,106 @@
+﻿@model GuildCars.UI.Models.AdminAddUserViewModel
+@{
+    ViewBag.Title = "Admin - Add User";
+}
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Add User</h1>
+        </div>
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("AddUser", "Admin", FormMethod.Post, new { id = "formAddUser" }))
+        {
+            @Html.ValidationSummary()
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-md-2">
+                        <div class="form-group">
+                            <label>Role</label>
+                            @Html.DropDownListFor(m => m.Role, Model.Roles, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Password</label>
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#formAddUser').validate({
+                rules: {
+                    'FirstName': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 50
+                    },
+                    'LastName': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 50
+                    },
+                    'Email': {
+                        required: true,
+                        email: true,
+                        minlength: 17,
+                        maxlength: 50
+                    },
+                    'Role': {
+                        required: true
+                    },
+                    'Password': {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 30
+                    },
+                    'ConfirmPassword': {
+                        required: true,
+                        equalTo: '#Password'
+                    }
+                }
+            })
+        })
+    </script>
+}

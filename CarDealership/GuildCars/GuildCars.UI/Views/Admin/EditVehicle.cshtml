@@ -1,0 +1,382 @@
+﻿@model GuildCars.UI.Models.AdminAddEditVehicleViewModel
+@{
+    ViewBag.Title = "Admin - Edit Vehicle";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Edit Vehicle</h1>
+        </div>
+    </div>
+    @if (Model.AddEditVehicleRequestItem.IsDeleted == false)
+    {
+
+        <div class="row">
+            @using (Html.BeginForm("EditVehicle", "Admin", FormMethod.Post, new { id = "formEditVehicle", enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary()
+                @Html.HiddenFor(m => m.AddEditVehicleRequestItem.VehicleId)
+                @Html.HiddenFor(m => m.AddEditVehicleRequestItem.Picture)
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Make</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.MakeName, Model.Makes, new { @class = "form-control", @onchange = "GetModels()" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Model</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.ModelName, Model.Models, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Type</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.TypeName, Model.Types, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Body Style</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.BodyStyleName, Model.BodyStyles, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Year</label>
+                                @Html.TextBoxFor(m => m.Year, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Transmission</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.TransName, Model.Trans, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Color</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.ColorExName, Model.ColorEx, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Interior</label>
+                                @Html.DropDownListFor(m => m.AddEditVehicleRequestItem.ColorIntName, Model.ColorInt, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Mileage</label>
+                                @Html.TextBoxFor(m => m.AddEditVehicleRequestItem.Mileage, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>VIN #</label>
+                                @Html.TextBoxFor(m => m.AddEditVehicleRequestItem.VIN, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>MSRP</label>
+                                @Html.TextBoxFor(m => m.AddEditVehicleRequestItem.MSRP, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label>Sale Price</label>
+                                @Html.TextBoxFor(m => m.AddEditVehicleRequestItem.SalePrice, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 col-md-8">
+                            <div class="form-group">
+                                <label>Description</label>
+                                @Html.TextAreaFor(m => m.AddEditVehicleRequestItem.Description, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <p><img src="@Url.Content("~/ImagesPROD/" + Model.AddEditVehicleRequestItem.Picture)" style="width:200px; height:200px" /></p>
+                                <label>Replace Picture</label>
+                                <input id="PictureUpload" name="PictureUpload" type="file" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 col-md-8">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(m => m.AddEditVehicleRequestItem.Featured) Feature this vehicle
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-1 col-md-1">
+                            <button class="btn btn-danger" onclick="DeleteVehicle()">Delete</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-1 col-md-1">
+                            <button class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Make</label>
+                            <p>@Model.AddEditVehicleRequestItem.MakeName</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Model</label>
+                            <p>@Model.AddEditVehicleRequestItem.ModelName</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Type</label>
+                            <p>@Model.AddEditVehicleRequestItem.TypeName</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Body Style</label>
+                            <p>@Model.AddEditVehicleRequestItem.BodyStyleName</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <p>@Model.AddEditVehicleRequestItem.Year</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Transmission</label>
+                            <p>@Model.AddEditVehicleRequestItem.TransName</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Color</label>
+                            <p>@Model.AddEditVehicleRequestItem.ColorExName</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Interior</label>
+                            <p>@Model.AddEditVehicleRequestItem.ColorIntName</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Mileage</label>
+                            <p>@Model.AddEditVehicleRequestItem.Mileage</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>VIN #</label>
+                            <p>@Model.AddEditVehicleRequestItem.VIN</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>MSRP</label>
+                            <p>@Model.AddEditVehicleRequestItem.MSRP</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label>Sale Price</label>
+                            <p>@Model.AddEditVehicleRequestItem.SalePrice</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 col-md-8">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <p>@Model.AddEditVehicleRequestItem.Description</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <p><img src="@Url.Content("~/ImagesPROD/" + Model.AddEditVehicleRequestItem.Picture)" style="width:200px; height:200px" /></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 col-md-8">
+                        <div class="form-group">
+                            <p style="color:red; font-weight:bold;">Unavailable to Edit - Vehicle Deleted or Sold</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            GetModels();
+             var yearFormatted = @Model.AddEditVehicleRequestItem.Year.Year;
+            $('#Year').val(yearFormatted);
+
+            $('#formEditVehicle').validate({
+                rules: {
+                    'AddEditVehicleRequestItem.MakeName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.ModelName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.TypeName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.BodyStyleName': {
+                        required: true
+                    },
+                    'Year': {
+                        required: true,
+                        number: true,
+                        minlength: 4,
+                        maxlength: 4,
+                        range: [2000, @DateTime.Now.Year + 1]
+                    },
+                    'AddEditVehicleRequestItem.TransName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.ColorExName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.ColorIntName': {
+                        required: true
+                    },
+                    'AddEditVehicleRequestItem.Mileage': {
+                        required: true,
+                        number: true,
+                        rangeBasedOnType: '#AddEditVehicleRequestItem_TypeName'
+                    },
+                    'AddEditVehicleRequestItem.VIN': {
+                        required: true,
+                        minlength: 17,
+                        maxlength: 17,
+                    },
+                    'AddEditVehicleRequestItem.MSRP': {
+                        required: true,
+                        number: true,
+                        range: [1, 99999]
+                    },
+                    'AddEditVehicleRequestItem.SalePrice': {
+                        required: true,
+                        number: true,
+                        lessThan: '#AddEditVehicleRequestItem_MSRP'
+                    },
+                    'AddEditVehicleRequestItem.Description': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 200
+                    },
+                    'PictureUpload': {
+                        accept: "image/png, image/jpg, image/jpeg",
+                        debug: true,
+                        filesize: 1048576
+                    }
+                }
+            })
+        })
+
+        function GetModels() {
+            var params = 'makeName=' + $('#AddEditVehicleRequestItem_MakeName').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44368/admin/editvehicle/getmodels?' + params,
+                success: function (results) {
+                    var models = $('#AddEditVehicleRequestItem_ModelName');
+                    models.empty();
+
+                    $.each(results, function (index, model) {
+
+                        models.append(
+                            $('<option>', {
+                                value: model.ModelName
+                            }).text(model.ModelName)
+                        );
+                    });
+                },
+                error: function () {
+                    alert('Error changing models, please reload page!')
+                }
+            });
+        }
+
+
+
+        function DeleteVehicle(message) {
+            var idToDelete = @Model.AddEditVehicleRequestItem.VehicleId;
+            var params = 'vehicleId=' + idToDelete;
+
+            var check = confirm("Are you sure you want to delete this vehicle?");
+            if (check == true) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'https://localhost:44368/admin/editvehicle/delete?' + params,
+                    success: function (results) {
+                        window.location.replace('/Admin/Vehicles/');
+                        alert('Success! Vehicle was deleted. It can no longer be edited or sold.')
+                    },
+                    error: function () {
+                        alert('Error deleting vehicle, please try again later!')
+                    }
+                });
+            } else {
+                return false;
+            }
+        }
+    </script>
+}

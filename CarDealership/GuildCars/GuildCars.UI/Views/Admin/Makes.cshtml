@@ -1,0 +1,69 @@
+﻿@model GuildCars.UI.Models.AdminMakesViewModel
+@{
+    ViewBag.Title = "Admin - Makes";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Makes</h1>
+        </div>
+    </div>
+    <div class="row" id="styleBorder">
+        @using (Html.BeginForm("Makes", "Admin", FormMethod.Post, new { id = "formAddMake" }))
+        {
+            @Html.ValidationSummary()
+            <div class="col-xs-4">
+                <div class="form-group form-inline">
+                    <label style="display:inline">New Make </label>
+                    @Html.TextBoxFor(m => m.MakeToCreate.MakeName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="form-group form-inline">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4" id="styleBorder">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Make</th>
+                        <th>Date Added</th>
+                        <th>User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var make in Model.Makes)
+                    {
+                        <tr>
+                            <td>@make.MakeName</td>
+                            <td>@make.DateAdded.Month/@make.DateAdded.Day/@make.DateAdded.Year</td>
+                            <td>@make.AddedByUser</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#formAddMake').validate({
+                rules: {
+                    'MakeToCreate.MakeName': {
+                        required: true,
+                        maxlength: 10
+                    }
+                }
+            })
+        })
+    </script>
+}

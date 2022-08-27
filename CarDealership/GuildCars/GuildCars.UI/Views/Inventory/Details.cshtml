@@ -1,0 +1,84 @@
+﻿@model GuildCars.Models.Query.SearchVehicleRequestItem
+@{
+    ViewBag.Title = "Inventory - Details";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Vehicle Details</h1>
+        </div>
+        <div class="col-xs-12" id="vehicleBorder">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <div class="row" id="picHeader">
+                        <p>@Model.Year.Year @Model.MakeName @Model.ModelName</p>
+                    </div>
+                    <div class="row" id="pic">
+                        <img src="@Url.Content("~/ImagesPROD/" + Model.Picture)" style="width:200px; height:200px" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-md-9">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p><br /></p>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-xs-4">
+                            <p>Body Style: @Model.BodyStyleName</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Interior: @Model.ColorIntName</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Sale Price: $@Model.SalePrice</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p>Trans: @Model.TransName</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Mileage: @Model.Mileage</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>MSRP: $@Model.MSRP</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p>Color: @Model.ColorExName</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <p>Vin #: @Model.VIN</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p>Description: @Model.Description</p>
+                        </div>
+                    </div>
+                    @if (!Model.IsDeleted)
+                    {
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <btn class="btn btn-primary pull-right" onclick="location.href='@Url.Action("Contact", "Home")'">Contact Us</btn>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.IsDeleted)
+                    {
+                        <div class="row">
+                            <div class="col-xs-10" style="text-align: right;">
+                                <label>Unavailable - Sold</label>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

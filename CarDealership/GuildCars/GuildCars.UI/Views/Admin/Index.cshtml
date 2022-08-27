@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Admin - Index";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Admin Routes</h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-xs-12 col-sm-3 col-md-3">
+            <hr />
+            <h4>@Html.ActionLink("Vehicles", "Vehicles", "Admin")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Users", "Users", "Admin")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Makes", "Makes", "Admin")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Models", "Models", "Admin")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Specials", "Specials", "Admin")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Sales Report", "Sales", "Reports")</h4>
+            <hr />
+            <h4>@Html.ActionLink("Inventory Report", "Inventory", "Reports")</h4>
+        </div>
+    </div>
+</div>

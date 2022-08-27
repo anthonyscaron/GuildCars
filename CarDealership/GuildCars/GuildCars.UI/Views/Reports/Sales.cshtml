@@ -1,0 +1,134 @@
+﻿@model GuildCars.UI.Models.ReportsSalesViewModel
+@{
+    ViewBag.Title = "Reports - Sales";
+}
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Sales Report</h1>
+        </div>
+    </div>
+    <div class="row" id="styleBorder">
+        <form id="searchForm" class="form-inline">
+            <h4>Filters</h4>
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-md-3 form-group">
+                    <label for="searchString">User  </label>
+                    <select class="form-control" id="searchString">
+                        <option value="">- All -</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user">@user</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-8 form-group">
+                    <label for="fromYear">From Date </label>
+                    <select class="form-control" id="fromYear">
+                        <option value=""></option>
+                        @foreach (var year in Model.Years)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                    <label for="toYear">To Date </label>
+                    <select class="form-control" id="toYear">
+                        <option value=""></option>
+                        @foreach (var year in Model.Years)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-xs-3 form-group" style="text-align: center;">
+                    <btn type="submit" onclick="search()" class="btn btn-primary" id="searchBtn">Search</btn>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>Search Results</h4>
+        </div>
+    </div>
+    <div class="row" id="salesReport">
+        <div class="col-xs-12 col-sm-6 col-md-6" id="styleBorder">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Total Sales</th>
+                        <th>Total Vehicles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sale in Model.SalesReportRequestItem)
+                    {
+                        <tr>
+                            <td>@sale.FirstName @sale.LastName</td>
+                            <td>$@sale.TotalSales</td>
+                            <td>@sale.TotalVehicles</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                search();
+                return false;
+            })
+        })
+
+        function search() {
+            var params;
+
+            params = 'searchString=' + $('#searchString').val() + '&fromYear=' + $('#fromYear').val() + '&toYear=' + $('#toYear').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44368/reports/sales/search?' + params,
+                success: function (results) {
+                    $('#salesReport').empty();
+
+                    var tableHtml = '<div class="col-xs-12 col-sm-6 col-md-6" id="styleBorder">' +
+                        '<table class="table table-hover">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th>User</th>' +
+                        '<th>Total Sales</th>' +
+                        '<th>Total Vehicles</th>' +
+                        '</tr>' +
+                        '</thead>' +
+                        '<tbody>';
+
+                    $.each(results, function (index, sale) {
+                        tableHtml += '<tr>' +
+                            '<td>' + sale.FirstName + ' ' + sale.LastName + '</td>' +
+                            '<td>$' + sale.TotalSales + '.00</td>' +
+                            '<td>' + sale.TotalVehicles + '</td>' +
+                            '</tr>';
+                    });
+
+                    tableHtml += '</tbody>' +
+                        '</table>' +
+                        '</div>';
+
+                    $('#salesReport').append(tableHtml.toString());
+                },
+                error: function () {
+                    alert('Error performing search, try again later!')
+                }
+            });
+        }
+    </script>
+}

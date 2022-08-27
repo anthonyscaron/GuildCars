@@ -1,0 +1,58 @@
+﻿@model GuildCars.UI.Models.HomeIndexViewModel
+@{
+    ViewBag.Title = "Home - Index";
+}
+@foreach (var special in Model.Specials)
+{
+    <div class="specialSlides" id="styleBorder">
+        <div class="jumbotron jumbotron-fluid">
+            <button id="jumbotronButton" onclick="location.href='@Url.Action("Specials", "Home")'" style="background-image: url('@Url.Content("~/ImagesSupport/" + Model.FileNameForPicture)');">
+                <div class="col-xs-12">
+                        <h1>@special.SpecialTitle</h1>
+                        <hr />
+                        <p>@special.Description</p>
+                </div>
+            </button>
+        </div>
+    </div>  
+}
+
+<hr />
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Featured Vehicles</h2>
+        @foreach (var vehicle in @Model.FeaturedVehicles)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <button id="styleBorder" class="featured" onclick="location.href='@Url.Action("Details", "Inventory")/@vehicle.VehicleId'">
+                    <div class="col-xs-12">
+                        <p><img src="@Url.Content("~/ImagesPROD/" + vehicle.Picture)" style="width:200px; height:200px" /></p>
+                        <p>@vehicle.Year.Year @vehicle.MakeName @vehicle.ModelName</p>
+                        <p>$@vehicle.MSRP</p>
+                    </div>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("specialSlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 10000); // Change image every 10 seconds
+        }
+    </script>
+}

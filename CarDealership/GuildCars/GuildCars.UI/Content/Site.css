@@ -1,0 +1,91 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+#contactArea {
+    max-width: 280px;
+}
+
+button#jumbotronButton, #specialSection {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+textArea {
+    max-width: 660px;
+    min-height: 200px;
+    resize:none;
+}
+
+#styleBorder, #vehicleBorder, #specialSection {
+    border: 1px solid gray;
+}
+
+.jumbotron {
+    margin:0px;
+}
+
+.specialSlides{
+    margin:25px;
+}
+
+.featured, #vehicleBorder, #specialSection {
+    margin-bottom: 25px;
+}
+
+#searchForm {
+    padding: 10px;
+}
+
+#picHeader, #pic {
+    text-align:center;
+}
+
+p {
+    font-weight:bold;
+}
+
+#searchBtn {
+    padding:10px 125px;
+    margin: 10px;
+}
+
+table {
+    border: none;
+    border-collapse: collapse;
+}
+
+table td {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}
+
+table td:first-child {
+    border-left: none;
+}
+
+table td:last-child {
+    border-right: none;
+}
+
+#specialButton {
+    padding: 5px;
+}

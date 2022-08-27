@@ -1,0 +1,222 @@
+﻿@model GuildCars.UI.Models.InventoryNewUsedViewModel
+@{
+    ViewBag.Title = "Sales - Index";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Sales</h1>
+        </div>
+    </div>
+    <div class="row" id="styleBorder">
+        <form id="searchForm" class="form-inline">
+            <h4>Quick Search</h4>
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <label for="searchString"></label>
+                        <input type="text" class="form-control" id="searchString" placeholder="Enter make, model, or year" />
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <label for="minPrice">Price</label>
+                        <select class="form-control" id="minPrice">
+                            <option value="">No Min</option>
+                            @foreach (var price in Model.Prices)
+                            {
+                                <option value="@price">@price</option>
+                            }
+                        </select>
+                        <label for="maxPrice"></label>
+                        <select class="form-control" id="maxPrice">
+                            <option value="">No Max</option>
+                            @foreach (var price in Model.Prices)
+                            {
+                                <option value="@price">@price</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="form-group">
+                        <label for="minYear">Year</label>
+                        <select class="form-control" id="minYear">
+                            <option value="">No Min</option>
+                            @foreach (var year in Model.Years)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                        <label for="maxYear"></label>
+                        <select class="form-control" id="maxYear">
+                            <option value="">No Max</option>
+                            @foreach (var year in Model.Years)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="text-align: center;">
+                    <div class="form-group">
+                        <btn type="submit" onclick="search()" class="btn btn-primary" id="searchBtn">Search</btn>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="col-xs-12">
+    <h2>Search Results</h2>
+    <div id="searchResults" class="col-xs-12">
+        @foreach (var vehicle in Model.SearchVehicleRequestItem)
+        {
+            <div id="vehicleBorder" class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3 col-md-3">
+                        <div class="row" id="picHeader">
+                            <p>@vehicle.Year.Year @vehicle.MakeName @vehicle.ModelName</p>
+                        </div>
+                        <div class="row" id="pic">
+                            <img src="@Url.Content("~/ImagesPROD/" + vehicle.Picture)" style="width:150px; height:150px" />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-9 col-md-9">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p><br /></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <p>Body Style: @vehicle.BodyStyleName</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p>Interior: @vehicle.ColorIntName</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p>Sale Price: $@vehicle.SalePrice</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <p>Trans: @vehicle.TransName</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p>Mileage: @vehicle.Mileage</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p>MSRP: $@vehicle.MSRP</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <p>Color: @vehicle.ColorExName</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p>Vin #: @vehicle.VIN</p>
+                            </div>
+                            <div class="col-xs-4">
+                                <p><a href="@Url.Action("Purchase", "Sales")/@vehicle.VehicleId">Purchase</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#searchForm').submit(function (e) {
+                search();
+                return false;
+            })
+        })
+
+        function search() {
+            var params;
+            var imagePath = '@Url.Content("~/ImagesPROD/")';
+            var detailsPath = '@Url.Action("Purchase", "Sales")/';
+
+            params = 'searchString=' + $('#searchString').val() + '&minPrice=' + $('#minPrice').val() +
+                '&maxPrice=' + $('#maxPrice').val() + '&minYear=' + $('#minYear').val() + '&maxYear=' + $('#maxYear').val();
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44368/sales/index/search?' + params,
+                success: function (results) {
+                    $('#searchResults').empty();
+
+                    $.each(results, function (index, vehicle) {
+                        var year = new Date(vehicle.Year).getFullYear();
+                        var html = '<div id="vehicleBorder" class="col-xs-12">' +
+                            '<div class="row">' +
+                            '<div class="col-xs-12 col-sm-3 col-md-3">' +
+                            '<div class="row" id="picHeader">' +
+                            '<p>' + year + ' ' + vehicle.MakeName + ' ' + vehicle.ModelName + '</p> ' +
+                            '</div>' +
+                            '<div class="row" id="pic">' +
+                            '<img src="' + imagePath + vehicle.Picture + '" style="width:150px; height:150px" />' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-xs-12 col-sm-9 col-md-9">' +
+                            '<div class="row">' +
+                            '<div class="col-xs-12">' +
+                            '<p><br /></p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                            '<div class="col-xs-4">' +
+                            '<p>Body Style: ' + vehicle.BodyStyleName + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p>Interior: ' + vehicle.ColorIntName + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p>Sale Price: $' + vehicle.SalePrice + '.00</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                            '<div class="col-xs-4">' +
+                            '<p>Trans: ' + vehicle.TransName + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p>Mileage: ' + vehicle.Mileage + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p>MSRP: $' + vehicle.MSRP + '.00</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="row">' +
+                            '<div class="col-xs-4">' +
+                            '<p>Color: ' + vehicle.ColorExName + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p>Vin #: ' + vehicle.VIN + '</p>' +
+                            '</div>' +
+                            '<div class="col-xs-4">' +
+                            '<p><a href="' + detailsPath + vehicle.VehicleId + '">Purchase</a></p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        $('#searchResults').append(html.toString());
+                    });
+                },
+                error: function () {
+                    alert('Error performing search, try again later!')
+                }
+            });
+        }
+    </script>
+}

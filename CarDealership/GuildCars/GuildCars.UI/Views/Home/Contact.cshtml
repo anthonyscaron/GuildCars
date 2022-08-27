@@ -1,0 +1,90 @@
+﻿@model GuildCars.UI.Models.HomeContactViewModel
+@{
+    ViewBag.Title = "Home - Contact";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Contact Us</h1>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "formCreateContact" }))
+            {
+                @Html.ValidationSummary()
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        @Html.TextBoxFor(m => m.ContactEmail, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        @Html.TextBoxFor(m => m.ContactPhone, new { @type = "number", @class = "form-control" })
+                    </div>
+                    <div class="form-group" id="contactArea">
+                        <label>Message</label>
+                        @Html.TextAreaFor(m => m.Message, new { @class = "form-control" })
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+            }
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="row">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d999.9797875804709!2d-93.24395580122055!3d44.85476281356355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87f62f6ee0c3a355%3A0x2a0f65f3af69170!2sMall%20of%20America%20West%20Ramp!5e0!3m2!1sen!2sus!4v1659743185923!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="row">
+                    <p>2000 Killebrew Dr</p>
+                </div>
+                <div class="row">
+                    <p>Bloomington, MN 55425</p>
+                </div>
+                <div class="row">
+                    <p>Sales: 555-123-456</p>
+                </div>
+                <div class="row">
+                    <p>Service: 555-987-6543</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#formCreateContact').validate({
+                rules: {
+                    'ContactName': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 50
+                    },
+                    'ContactEmail': {
+                        required: '#ContactPhone:blank',
+                        email: true,
+                        minlength: 7,
+                        maxlength: 50
+                    },
+                    'ContactPhone': {
+                        required: '#ContactEmail:blank',
+                        number: true,
+                        minlength: 10,
+                        maxlength: 10
+                    },
+                    'Message': {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 200
+                    }
+                }
+            })
+        })
+    </script>
+}
